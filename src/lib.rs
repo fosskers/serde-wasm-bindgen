@@ -47,5 +47,6 @@ pub fn from_value<T: serde::de::DeserializeOwned>(value: JsValue) -> Result<T> {
 
 /// Converts a Rust value into a [`JsValue`].
 pub fn to_value<T: serde::ser::Serialize + ?Sized>(value: &T) -> Result<JsValue> {
-    value.serialize(&Serializer::new())
+    let ser = Serializer::new();
+    value.serialize(&ser.serialize_maps_as_objects(true))
 }
